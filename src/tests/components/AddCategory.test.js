@@ -6,8 +6,10 @@ const { AddCategory } = require("../../components/AddCategory")
 
 describe('Pruebas en el componente <AddCategory />', () => {
 
+    
     const setCategories =  jest.fn();
-    let wrapper = shallow( <AddCategory setCategories={ setCategories } />);
+    let wrapper = shallow( <AddCategory setCategories={ setCategories }/>);
+    const value = 'Hola Mundo';
 
     beforeEach(() => {
         
@@ -25,7 +27,6 @@ describe('Pruebas en el componente <AddCategory />', () => {
     test('debe de buscar la caja de texto', () => {
 
         const input = wrapper.find('input');
-        const value = 'Hola Mundo';
 
         input.simulate('change', { target: { value } });
 
@@ -40,6 +41,17 @@ describe('Pruebas en el componente <AddCategory />', () => {
         expect( setCategories ).not.toHaveBeenCalled();
         
     })
+
+    test('Debe de llamar al serCategories y limpiar la caja de texto', () => {
+
+        wrapper.find('input').simulate('change', { target: { value }});
+        wrapper.find('form').simulate('submit', { preventDefault(){} });
+
+        expect( setCategories ).toHaveBeenCalled();
+        expect( wrapper.find('input').prop('value') ).toBe('');
+        
+    })
+    
     
     
     
